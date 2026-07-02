@@ -5,181 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IaC Resource Request</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #0f1117;
-            color: #e0e0e0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: #f4f6f9;
+            color: #333;
+            padding: 40px 20px;
         }
 
         .container {
-            background: #1a1d27;
-            border: 1px solid #2e3148;
-            border-radius: 16px;
-            padding: 40px;
-            width: 100%;
-            max-width: 600px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            max-width: 650px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 36px;
+        h1 {
+            font-size: 22px;
+            margin-bottom: 6px;
         }
 
-        .header h1 {
-            font-size: 24px;
-            color: #ffffff;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #7a7f9a;
+        p.subtitle {
+            color: #777;
             font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         label {
             display: block;
             font-size: 13px;
-            color: #7a7f9a;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .select-wrapper {
-            position: relative;
-        }
-
-        .select-wrapper::after {
-            content: '▾';
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #7a7f9a;
-            pointer-events: none;
-        }
-
-        select {
-            width: 100%;
-            padding: 14px 16px;
-            background: #0f1117;
-            border: 1px solid #2e3148;
-            border-radius: 10px;
-            color: #e0e0e0;
-            font-size: 15px;
-            appearance: none;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #5c6bc0;
-        }
-
-        select:hover {
-            border-color: #3d4270;
-        }
-
-        /* Resource Cards */
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .resource-card {
-            background: #0f1117;
-            border: 1px solid #2e3148;
-            border-radius: 10px;
-            padding: 18px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .resource-card:hover {
-            border-color: #5c6bc0;
-            background: #13162b;
-        }
-
-        .resource-card.selected {
-            border-color: #5c6bc0;
-            background: #1a1f3a;
-            box-shadow: 0 0 0 1px #5c6bc0;
-        }
-
-        .resource-card .icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .resource-card .name {
-            font-size: 13px;
-            color: #c0c4d8;
-            font-weight: 500;
-        }
-
-        /* Details Section */
-        .details-section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .details-section.visible {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .divider {
-            border: none;
-            border-top: 1px solid #2e3148;
-            margin: 24px 0;
-        }
-
-        .details-title {
-            font-size: 14px;
-            color: #5c6bc0;
-            margin-bottom: 16px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+            color: #555;
         }
 
-        input[type="number"], input[type="text"] {
+        select, input[type="text"], input[type="number"] {
             width: 100%;
-            padding: 12px 16px;
-            background: #0f1117;
-            border: 1px solid #2e3148;
-            border-radius: 10px;
-            color: #e0e0e0;
-            font-size: 15px;
-            transition: border-color 0.2s;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            background: white;
         }
 
-        input:focus {
+        select:focus, input:focus {
             outline: none;
-            border-color: #5c6bc0;
+            border-color: #4a7ce2;
         }
 
         .input-row {
@@ -188,216 +61,394 @@
             gap: 12px;
         }
 
-        .btn {
-            width: 100%;
-            padding: 14px;
-            background: #5c6bc0;
-            color: white;
+        .resource-block {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            background: #fafafa;
+            position: relative;
+        }
+
+        .resource-block h3 {
+            font-size: 14px;
+            margin-bottom: 16px;
+            color: #444;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
             border: none;
-            border-radius: 10px;
-            font-size: 15px;
+            color: #aaa;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            color: #e55;
+        }
+
+        .btn-add {
+            width: 100%;
+            padding: 12px;
+            background: #eef2f9;
+            border: 1px dashed #a9bce0;
+            border-radius: 6px;
+            color: #4a7ce2;
             font-weight: 600;
             cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-add:hover {
+            background: #e2e9f7;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 24px 0;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: #4a7ce2;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background: #3a6ad2;
+        }
+
+        #output-section {
+            display: none;
             margin-top: 24px;
+        }
+
+        #output-section h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        #json-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .output-actions {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .btn-copy {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
             transition: background 0.2s;
         }
 
-        .btn:hover {
-            background: #4a58a8;
+        .btn-copy:hover {
+            background: #333;
         }
 
-        .badge {
-            display: inline-block;
-            background: #1a1f3a;
-            color: #5c6bc0;
-            border: 1px solid #5c6bc0;
-            border-radius: 20px;
-            padding: 2px 10px;
-            font-size: 12px;
+        .btn-download {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
             margin-left: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-download:hover {
+            background: #1b5e20;
         }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <div class="header">
-        <h1>🛠️ IaC Resource Request</h1>
-        <p>Wähle eine Ressource aus und konfiguriere sie</p>
-    </div>
+    <h1>IaC Resource Request</h1>
+    <p class="subtitle">Füge eine oder mehrere Ressourcen hinzu und schicke den Request gesammelt ab.</p>
 
-    <!-- Resource Auswahl -->
-    <label>Ressource auswählen</label>
-    <div class="resource-grid">
-        <div class="resource-card" onclick="selectResource('vsi')">
-            <div class="icon">🖥️</div>
-            <div class="name">VSI</div>
-        </div>
-        <div class="resource-card" onclick="selectResource('openshift')">
-            <div class="icon">☸️</div>
-            <div class="name">OpenShift Namespace</div>
-        </div>
-        <div class="resource-card" onclick="selectResource('cos')">
-            <div class="icon">🪣</div>
-            <div class="name">Cloud Object Storage</div>
-        </div>
-        <div class="resource-card" onclick="selectResource('vip')">
-            <div class="icon">🌐</div>
-            <div class="name">VIP</div>
-        </div>
-        <div class="resource-card" onclick="selectResource('database')" style="grid-column: span 2;">
-            <div class="icon">🗄️</div>
-            <div class="name">Datenbank</div>
+    <div id="resource-list"></div>
+
+    <button class="btn-add" onclick="addResource()">+ Ressource hinzufügen</button>
+
+    <hr class="divider">
+
+    <button class="btn-submit" onclick="submitRequest()">Anfrage absenden</button>
+
+    <div id="output-section">
+        <h3>Generiertes JSON:</h3>
+        <pre id="json-output"></pre>
+        <div class="output-actions">
+            <button class="btn-copy" onclick="copyJson()">📋 Kopieren</button>
+            <button class="btn-download" onclick="downloadJson()">⬇️ Download</button>
         </div>
     </div>
-
-    <!-- Details je nach Auswahl -->
-
-    <!-- VSI -->
-    <div class="details-section" id="details-vsi">
-        <hr class="divider">
-        <div class="details-title">⚙️ VSI Konfiguration</div>
-        <div class="form-group">
-            <label>Name</label>
-            <input type="text" placeholder="z.B. my-server-01">
-        </div>
-        <div class="input-row">
-            <div class="form-group">
-                <label>CPU (Cores)</label>
-                <input type="number" placeholder="4" min="1">
-            </div>
-            <div class="form-group">
-                <label>RAM (GB)</label>
-                <input type="number" placeholder="16" min="1">
-            </div>
-        </div>
-    </div>
-
-    <!-- OpenShift -->
-    <div class="details-section" id="details-openshift">
-        <hr class="divider">
-        <div class="details-title">☸️ OpenShift Namespace Konfiguration</div>
-        <div class="form-group">
-            <label>Namespace Name</label>
-            <input type="text" placeholder="z.B. team-backend-prod">
-        </div>
-        <div class="input-row">
-            <div class="form-group">
-                <label>CPU Limit</label>
-                <input type="text" placeholder='z.B. "4" oder "500m"'>
-            </div>
-            <div class="form-group">
-                <label>Memory Limit</label>
-                <input type="text" placeholder="z.B. 8Gi">
-            </div>
-        </div>
-    </div>
-
-    <!-- COS -->
-    <div class="details-section" id="details-cos">
-        <hr class="divider">
-        <div class="details-title">🪣 Cloud Object Storage Konfiguration</div>
-        <div class="form-group">
-            <label>Bucket Name</label>
-            <input type="text" placeholder="z.B. my-bucket-prod">
-        </div>
-        <div class="form-group">
-            <label>Storage Klasse</label>
-            <div class="select-wrapper">
-                <select>
-                    <option value="">-- Bitte wählen --</option>
-                    <option>Standard</option>
-                    <option>Vault</option>
-                    <option>Cold Vault</option>
-                    <option>Smart Tier</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <!-- VIP -->
-    <div class="details-section" id="details-vip">
-        <hr class="divider">
-        <div class="details-title">🌐 VIP Konfiguration</div>
-        <div class="form-group">
-            <label>VIP Name</label>
-            <input type="text" placeholder="z.B. vip-frontend">
-        </div>
-        <div class="form-group">
-            <label>Subnetz / Zone</label>
-            <input type="text" placeholder="z.B. eu-de-1">
-        </div>
-    </div>
-
-    <!-- Datenbank -->
-    <div class="details-section" id="details-database">
-        <hr class="divider">
-        <div class="details-title">🗄️ Datenbank Konfiguration</div>
-        <div class="form-group">
-            <label>Datenbankname</label>
-            <input type="text" placeholder="z.B. prod-db-01">
-        </div>
-        <div class="form-group">
-            <label>Typ</label>
-            <div class="select-wrapper">
-                <select>
-                    <option value="">-- Bitte wählen --</option>
-                    <option>PostgreSQL</option>
-                    <option>MySQL</option>
-                    <option>MongoDB</option>
-                    <option>Redis</option>
-                </select>
-            </div>
-        </div>
-        <div class="input-row">
-            <div class="form-group">
-                <label>Storage (GB)</label>
-                <input type="number" placeholder="100" min="10">
-            </div>
-            <div class="form-group">
-                <label>RAM (GB)</label>
-                <input type="number" placeholder="8" min="1">
-            </div>
-        </div>
-    </div>
-
-    <!-- Submit -->
-    <div id="submit-section" style="display:none;">
-        <button class="btn" onclick="submitRequest()">✅ Anfrage absenden</button>
-    </div>
-
 </div>
 
 <script>
-    let selectedResource = null;
+    let counter = 0;
 
-    function selectResource(type) {
-        // Karten highlighten
-        document.querySelectorAll('.resource-card').forEach(card => {
-            card.classList.remove('selected');
-        });
-        event.currentTarget.classList.add('selected');
+    const resourceFields = {
+        vsi: `
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="z.B. my-server-01">
+            </div>
+            <div class="input-row">
+                <div>
+                    <label>CPU (Cores)</label>
+                    <select name="cpu">
+                        <option value="">-- wählen --</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>4</option>
+                        <option>8</option>
+                        <option>16</option>
+                    </select>
+                </div>
+                <div>
+                    <label>RAM (GB)</label>
+                    <select name="ram">
+                        <option value="">-- wählen --</option>
+                        <option>2</option>
+                        <option>4</option>
+                        <option>8</option>
+                        <option>16</option>
+                        <option>32</option>
+                        <option>64</option>
+                    </select>
+                </div>
+            </div>
+        `,
+        database: `
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="z.B. prod-db-01">
+            </div>
+            <div class="input-row">
+                <div>
+                    <label>Datenbanktyp</label>
+                    <select name="db_type">
+                        <option value="">-- wählen --</option>
+                        <option>PostgreSQL</option>
+                        <option>MySQL</option>
+                        <option>MongoDB</option>
+                        <option>Redis</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Storage (GB)</label>
+                    <select name="storage">
+                        <option value="">-- wählen --</option>
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>250</option>
+                        <option>500</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>RAM (GB)</label>
+                <select name="ram">
+                    <option value="">-- wählen --</option>
+                    <option>4</option>
+                    <option>8</option>
+                    <option>16</option>
+                    <option>32</option>
+                </select>
+            </div>
+        `,
+        cos: `
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="z.B. my-bucket-01">
+            </div>
+            <div class="form-group">
+                <label>Storage Class</label>
+                <select name="storage_class">
+                    <option value="">-- wählen --</option>
+                    <option>Standard</option>
+                    <option>Vault</option>
+                    <option>Cold Vault</option>
+                    <option>Flex</option>
+                </select>
+            </div>
+        `,
+        vip: `
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="z.B. my-vip-01">
+            </div>
+            <div class="form-group">
+                <label>Ports (kommagetrennt)</label>
+                <input type="text" name="ports" placeholder="z.B. 80,443">
+            </div>
+        `,
+        openshift: `
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="z.B. my-cluster-01">
+            </div>
+            <div class="input-row">
+                <div>
+                    <label>Worker Nodes</label>
+                    <select name="worker_nodes">
+                        <option value="">-- wählen --</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Flavor</label>
+                    <select name="flavor">
+                        <option value="">-- wählen --</option>
+                        <option>bx2.4x16</option>
+                        <option>bx2.8x32</option>
+                        <option>bx2.16x64</option>
+                    </select>
+                </div>
+            </div>
+        `
+    };
 
-        // Alle Details verstecken
-        document.querySelectorAll('.details-section').forEach(section => {
-            section.classList.remove('visible');
-        });
+    function addResource() {
+        const id = counter++;
+        const block = document.createElement('div');
+        block.className = 'resource-block';
+        block.id = 'block-' + id;
+        block.innerHTML = `
+            <button class="remove-btn" onclick="removeResource(${id})">✕</button>
+            <h3>Ressource ${id + 1}</h3>
+            <label>Ressourcentyp</label>
+            <select onchange="updateFields(${id}, this.value)">
+                <option value="">-- Bitte wählen --</option>
+                <option value="vsi">VSI</option>
+                <option value="database">Datenbank</option>
+                <option value="cos">Cloud Object Storage</option>
+                <option value="vip">VIP</option>
+                <option value="openshift">OpenShift Cluster</option>
+            </select>
+            <div id="fields-${id}"></div>
+        `;
+        document.getElementById('resource-list').appendChild(block);
+    }
 
-        // Passendes Detail anzeigen
-        const detail = document.getElementById('details-' + type);
-        if (detail) {
-            detail.classList.add('visible');
-        }
+    function updateFields(id, type) {
+        const fieldsDiv = document.getElementById('fields-' + id);
+        const block = document.getElementById('block-' + id);
+        block.dataset.type = type;
+        fieldsDiv.innerHTML = resourceFields[type] || '';
+    }
 
-        // Submit Button zeigen
-        document.getElementById('submit-section').style.display = 'block';
-
-        selectedResource = type;
+    function removeResource(id) {
+        const block = document.getElementById('block-' + id);
+        if (block) block.remove();
     }
 
     function submitRequest() {
-        alert(`Anfrage für "${selectedResource}" wird verarbeitet... \n\n(Output kommt im nächsten Schritt)`);
+        const blocks = document.querySelectorAll('.resource-block');
+        if (blocks.length === 0) {
+            alert('Bitte mindestens eine Ressource hinzufügen.');
+            return;
+        }
+
+        const resources = [];
+        let hasError = false;
+
+        blocks.forEach((block) => {
+            const type = block.dataset.type;
+            if (!type) {
+                hasError = true;
+                return;
+            }
+
+            const resourceObj = { type: type };
+
+            const fieldsDiv = block.querySelector('[id^="fields-"]');
+            const inputs = fieldsDiv.querySelectorAll('input, select');
+
+            inputs.forEach((input) => {
+                const key = input.name;
+                if (!key) return;
+                resourceObj[key] = input.value;
+            });
+
+            resources.push(resourceObj);
+        });
+
+        if (hasError) {
+            alert('Bitte bei allen Ressourcen einen Ressourcentyp auswählen.');
+            return;
+        }
+
+        const output = { resources: resources };
+        const jsonString = JSON.stringify(output, null, 2);
+
+        document.getElementById('json-output').textContent = jsonString;
+        document.getElementById('output-section').style.display = 'block';
+
+        document.getElementById('output-section').scrollIntoView({ behavior: 'smooth' });
     }
+
+    function copyJson() {
+        const text = document.getElementById('json-output').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.querySelector('.btn-copy');
+            const original = btn.textContent;
+            btn.textContent = '✅ Kopiert!';
+            setTimeout(() => btn.textContent = original, 1500);
+        });
+    }
+
+    function downloadJson() {
+        const text = document.getElementById('json-output').textContent;
+        const blob = new Blob([text], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+
+        const timestamp = new Date().toISOString().slice(0, 10);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `iac-request-${timestamp}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        URL.revokeObjectURL(url);
+    }
+
+    // Direkt beim Laden eine Ressource anzeigen
+    addResource();
 </script>
 
 </body>
